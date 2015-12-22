@@ -30,41 +30,41 @@ end
 class FixItemAndFavorRelatedTestimonials < ActiveRecord::Migration
   def self.up
     
-    # Loop through the old KassiEvents again (as done in 20100923074241_migrate_conversations_to_new_format.rb)
-    # This time we remember to put the listing id in the conversation
+    # # Loop through the old KassiEvents again (as done in 20100923074241_migrate_conversations_to_new_format.rb)
+    # # This time we remember to put the listing id in the conversation
     
-    say "Looping through all the old Kassi Events and fixing those where conversation lacks listing.id"
-    KassiEvent.all.each do |ke|
+    # say "Looping through all the old Kassi Events and fixing those where conversation lacks listing.id"
+    # KassiEvent.all.each do |ke|
     
-      case ke.eventable_type
-      when "FavorRequest"
+    #   case ke.eventable_type
+    #   when "FavorRequest"
 
-        # use existing conversation
-        conversation = Conversation.find(ke.eventable_id)
+    #     # use existing conversation
+    #     conversation = Conversation.find(ke.eventable_id)
         
-        favor = Favor.find(conversation.favor_id)
-         # find the listing that is made in earlier migration
-        listing = Listing.where(:title => favor.title, :author_id => favor.owner_id, :description => favor.description).first
+    #     favor = Favor.find(conversation.favor_id)
+    #      # find the listing that is made in earlier migration
+    #     listing = Listing.where(:title => favor.title, :author_id => favor.owner_id, :description => favor.description).first
         
-        puts "Will change the li of conv #{conversation.id} to #{listing.id}"
-        conversation.listing_id = listing.id
-        conversation.save!
-      when "Reservation"
-        # use existing conversation
-        conversation = Conversation.find(ke.eventable_id)
+    #     puts "Will change the li of conv #{conversation.id} to #{listing.id}"
+    #     conversation.listing_id = listing.id
+    #     conversation.save!
+    #   when "Reservation"
+    #     # use existing conversation
+    #     conversation = Conversation.find(ke.eventable_id)
         
-        res = ItemReservation.where(:reservation_id => conversation.id).first
-        item = Item.find(res.item_id)
+    #     res = ItemReservation.where(:reservation_id => conversation.id).first
+    #     item = Item.find(res.item_id)
         
         
-         # find the listing that is made in earlier migration
-        listing = Listing.where(:title => item.title, :author_id => item.owner_id, :description => item.description).first
+    #      # find the listing that is made in earlier migration
+    #     listing = Listing.where(:title => item.title, :author_id => item.owner_id, :description => item.description).first
         
-        puts "Will change the li of conv #{conversation.id} to #{listing.id}, when item id is #{item.id} and title #{item.title} and listing title #{listing.title}"
-        conversation.listing_id = listing.id
-        conversation.save! 
-      end
-    end
+    #     puts "Will change the li of conv #{conversation.id} to #{listing.id}, when item id is #{item.id} and title #{item.title} and listing title #{listing.title}"
+    #     conversation.listing_id = listing.id
+    #     conversation.save! 
+    #   end
+    # end
   end
 
   def self.down
